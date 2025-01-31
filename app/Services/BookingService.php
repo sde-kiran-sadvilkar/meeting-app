@@ -6,6 +6,7 @@ use App\Models\Booking;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class BookingService
@@ -59,8 +60,9 @@ class BookingService
     }
 
 
-    public function applyFilters($requestData): Collection|null
+    public function applyFilters($requestData): LengthAwarePaginator|null
     {
+
         $bookings = Booking::query();
 
         if (isset($requestData['filters'])) {
@@ -80,6 +82,6 @@ class BookingService
             $bookings = $bookings->Upcoming();
         }
 
-        return $bookings->get();
+        return $bookings->paginate(config('system_config.pagination_length'));
     }
 }
