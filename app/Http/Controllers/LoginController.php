@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -17,10 +18,39 @@ class LoginController extends Controller
         //Validation logic goes here
 
         //
+        //dd($request->get('user'));
 
-        $user = User::where('email', $request->get('email'))->first();
+        $validator = Validator::make($request->all(), [
+            'user.email' => 'required|email',
+            'user.password' => 'required'
+        ], [
+            'user.email.email' => 'Please enter a valid email',
+            'user.email.required' => 'Email is required',
+            'user.password.required' => 'Password is required',
+        ]);
 
-        if ($user && Hash::check($request->get('password'), $user->password)) {
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'data' => [
+                        'success' => false,
+                        'errors' => $validator->errors()
+                    ]
+                ],
+                422
+            );
+        }
+
+        // $validatedData = $request->validateWithBag('user', [
+        //     'email' => ['required', 'email'],
+        //     'password' => ['required'],
+        // ]);
+
+        $reqestedUser = $request->get('user');
+
+        $user = User::where('email', $reqestedUser['email'])->first();
+
+        if ($user && Hash::check($reqestedUser['password'], $user->password)) {
 
             //Valid user so create token
 
@@ -28,8 +58,10 @@ class LoginController extends Controller
 
             return response(
                 [
-                    'success' => true,
-                    'token' => $token
+                    'data' => [
+                        'success' => true,
+                        'token' => $token
+                    ]
                 ],
                 200
             );
@@ -37,8 +69,15 @@ class LoginController extends Controller
 
         return response(
             [
-                'success' => false,
-                'token' => ''
+                'data' => [
+                    'success' => false,
+                    'errors' => [
+                        "user.invalid" => [
+                            "Email or password incorrect"
+                        ]
+                    ]
+                ]
+
             ],
             401
         );

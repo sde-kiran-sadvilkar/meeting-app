@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login']);
 Route::post('/get-meeting-rooms', [RoomController::class, 'getMeetingRooms']);
 Route::post('/create-booking', [BookingController::class, 'createBooking'])->middleware('auth:sanctum');
 Route::get('/get-user-booking', [BookingController::class, 'getUserBookings'])->middleware('auth:sanctum');

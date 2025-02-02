@@ -23,11 +23,16 @@ class RoomService
             $query->whereBetween('booking_start_time', [$booking_start_time, $booking_end_time])
                 ->orwhereBetween('booking_end_time', [$booking_start_time, $booking_end_time]);
         })
+            ->orwhere(function ($query) use ($booking_start_time, $booking_end_time) {
+
+                $query->where('booking_start_time', '<=', $booking_start_time)
+                    ->where('booking_end_time', '>=', $booking_end_time);
+            })
             ->whereIn('room_id', $rooms)
             ->select('room_id')
             ->distinct()
-            ->get()->pluck('room_id');
-
+            ->get()
+            ->pluck('room_id');
 
         $availableRoomsId = array_diff($rooms->toArray(), $nonAvailableRooms->toArray());
         $availableRooms = $this->getRooms($availableRoomsId);
