@@ -38,6 +38,7 @@ class BookingController extends Controller
 
     public function getUserBookings(Request $request)
     {
+
         $bookings = $this->bookingService->applyFilters($request->all());
 
         return response()->json([

@@ -73,9 +73,9 @@ class BookingService
 
                 if ($filters['booking_date'] == 'upcoming') {
 
-                    $bookings = $bookings->Upcoming();
+                    $bookings = $bookings->Upcoming('Asia/Kolkata');
                 } else {
-                    $bookings = $bookings->Past();
+                    $bookings = $bookings->Past('Asia/Kolkata');
                 }
             }
         } else {

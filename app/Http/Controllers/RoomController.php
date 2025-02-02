@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Services\BookingService;
 use App\Services\RoomService;
+use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
 {
@@ -17,6 +18,26 @@ class RoomController extends Controller
 
     public function getMeetingRooms(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'date' => 'required',
+            'duration' => 'required',
+            'capacity' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'data' => [
+                        'success' => false,
+                        'errors' => $validator->errors()
+                    ]
+                ],
+                422
+            );
+        }
+
 
         $availableRooms = $this->roomService->getAvailableRooms(
             [

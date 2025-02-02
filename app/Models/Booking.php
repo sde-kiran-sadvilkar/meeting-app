@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    //
 
-    public function scopeUpcoming($query)
+    public function scopeUpcoming($query, $tz = 'UTC')
     {
-        return $query->where('booking_date', '>', Carbon::now()->format('Y-m-d H:i:s'));
+        $time = Carbon::now()->setTimezone($tz)->format('Y-m-d H:i:s');
+        return $query->where('booking_date', '>', $time);
     }
 
-    public function scopePast($query)
+    public function scopePast($query,  $tz = 'UTC')
     {
-        return $query->where('booking_date', '<', Carbon::now()->format('Y-m-d H:i:s'));
+        $time = Carbon::now()->setTimezone($tz)->format('Y-m-d H:i:s');
+        return $query->where('booking_date', '<', $time);
     }
 }

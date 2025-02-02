@@ -2,6 +2,6 @@
 
 return [
 
-    'pagination_length' => 1
+    'pagination_length' => 3
 
 ];
