@@ -25,9 +25,12 @@ return new class extends Migration
             //$table->dateTimeTz('booking_date_tz')->nullable(true)->default(null); //future reference when dealing with different timezone bookings
             $table->dateTime('booking_end_time');
             $table->smallInteger('booking_duration')->comment('duration of booking in minutes');
-            $table->boolean('is_expired')->default(false); // This column can be used to process querey faster when dealing with checking of room availability
+            $table->boolean('is_expired')->default(false); // This column can be used to process query faster when dealing with checking of room availability
             $table->timestamps();
             $table->softDeletes();
+
+            $table->index(['user_id', 'created_at']);
+            $table->index(['room_id', 'booking_start_time', 'booking_end_time']);
         });
     }
 

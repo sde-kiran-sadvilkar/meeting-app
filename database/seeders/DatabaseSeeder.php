@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PaymentGateway;
 use App\Models\Room;
 use App\Models\SubscriptionPack;
 use App\Models\User;
@@ -91,6 +92,26 @@ class DatabaseSeeder extends Seeder
 
         foreach ($planData as $plan) {
             SubscriptionPack::factory()->create($plan);
+        }
+
+        $gateways = [
+            [
+                'name' => 'Razor Pay',
+                'slug' => 'razor_pay'
+            ],
+            [
+                'name' => 'PayU',
+                'slug' => 'payu'
+            ],
+            [
+                'name' => 'Cash Free',
+                'slug' => 'cash_free'
+            ]
+        ];
+
+
+        foreach ($gateways as $gateway) {
+            PaymentGateway::factory()->create($gateway);
         }
     }
 }

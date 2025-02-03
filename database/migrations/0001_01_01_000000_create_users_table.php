@@ -16,8 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('current_plan')->default('free_plan');
+            $table->dateTime('current_plan_expiry_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->smallInteger('wrong_attemps')->nullable();
+            $table->dateTime('blocked_until')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -52,7 +52,7 @@ class BookingService
         $today = Carbon::today()->format('Y-m-d');
         $tomorrow = Carbon::tomorrow()->format('Y-m-d');
 
-        $bookingsToday = Booking::where('user_id', $userId)->whereBetween('booking_date', [$today, $tomorrow])->get()->count();
+        $bookingsToday = Booking::where('user_id', $userId)->whereBetween('created_at', [$today, $tomorrow])->get()->count();
 
         $maxbooking = $this->subscriptionPacktService->getBookingLimit($currentSubscription);
 
