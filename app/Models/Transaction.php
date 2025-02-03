@@ -18,6 +18,6 @@ class Transaction extends Model
         'rrn_number',
         'amount',
         'plan',
-        'transaction_mode'
+        'transaction_mode',
     ];
 }

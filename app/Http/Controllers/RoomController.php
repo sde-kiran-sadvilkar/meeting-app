@@ -2,12 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Http\Request;
-
-
-use App\Services\BookingService;
 use App\Services\RoomService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RoomController extends Controller
@@ -23,7 +19,7 @@ class RoomController extends Controller
             'name' => 'required',
             'date' => 'required',
             'duration' => 'required',
-            'capacity' => 'required'
+            'capacity' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -31,26 +27,25 @@ class RoomController extends Controller
                 [
                     'data' => [
                         'success' => false,
-                        'errors' => $validator->errors()
-                    ]
+                        'errors' => $validator->errors(),
+                    ],
                 ],
                 422
             );
         }
-
 
         $availableRooms = $this->roomService->getAvailableRooms(
             [
                 'date' => $request->get('date'),
                 'time' => $request->get('time'),
                 'duration' => $request->get('duration'),
-                'capacity' => $request->get('capacity')
+                'capacity' => $request->get('capacity'),
             ]
         );
 
         return response()->json([
             'success' => true,
-            'data' => $availableRooms
+            'data' => $availableRooms,
         ], 200);
     }
 }

@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
-use Illuminate\Http\Request;
-
 use App\Services\BookingService;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
@@ -17,24 +14,23 @@ class BookingController extends Controller
     public function createBooking(Request $request)
     {
 
-        //validation goes here
+        // validation goes here
 
         $booking = $this->bookingService->createBooking($request->all(), $request->user()->id);
 
         if ($booking) {
             return response()->json([
-                'success' => true
+                'success' => true,
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
                 'data' => [
-                    'msg' => 'Please upgrade your plan to book more meetings'
-                ]
+                    'msg' => 'Please upgrade your plan to book more meetings',
+                ],
             ], 200);
         }
     }
-
 
     public function getUserBookings(Request $request)
     {
@@ -44,8 +40,8 @@ class BookingController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'bookings' => $bookings
-            ]
+                'bookings' => $bookings,
+            ],
         ], 200);
     }
 

@@ -9,19 +9,17 @@ use Illuminate\Support\Facades\Validator;
 
 class SignUpController extends Controller
 {
-
-
     public function signup(Request $request)
     {
 
-        //Validation logic goes here
+        // Validation logic goes here
 
         //
-        //dd($request->get('user'));
+        // dd($request->get('user'));
 
         $validator = Validator::make($request->all(), [
             'user.email' => 'required|email|unique:users,email',
-            'user.password' => 'required|min:6'
+            'user.password' => 'required|min:6',
         ], [
             'user.email.email' => 'Please enter a valid email',
             'user.email.required' => 'Email is required',
@@ -34,16 +32,15 @@ class SignUpController extends Controller
                 [
                     'data' => [
                         'success' => false,
-                        'errors' => $validator->errors()
-                    ]
+                        'errors' => $validator->errors(),
+                    ],
                 ],
                 422
             );
         }
 
-
         $reqUser = $request->get('user');
-        $user = new User();
+        $user = new User;
         $user->email = $reqUser['email'];
         $user->password = Hash::make($reqUser['password']);
         $user->save();
@@ -52,8 +49,8 @@ class SignUpController extends Controller
             [
                 'data' => [
                     'success' => true,
-                    'errors' => ''
-                ]
+                    'errors' => '',
+                ],
             ],
             200
         );

@@ -6,8 +6,7 @@ use App\Models\User;
 
 class UserService
 {
-
-    public function getUserSubscription($userId): string|null
+    public function getUserSubscription($userId): ?string
     {
 
         $plan = User::where('id', $userId)->select('current_plan')->first();

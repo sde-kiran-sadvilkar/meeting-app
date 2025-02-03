@@ -6,9 +6,7 @@ use App\Models\SubscriptionPack;
 
 class SubscriptionPacktService
 {
-
-
-    public function getBookingLimit($slug): string|null
+    public function getBookingLimit($slug): ?string
     {
         $limit = SubscriptionPack::where('slug', $slug)->select('booking_limit')->first();
 

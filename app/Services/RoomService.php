@@ -9,14 +9,12 @@ use Illuminate\Support\Collection;
 
 class RoomService
 {
-
-
-    public function getAvailableRooms(array $condition): Collection|null
+    public function getAvailableRooms(array $condition): ?Collection
     {
 
         $rooms = $this->getRoomsBasedOnCapacity($condition['capacity']);
 
-        $booking_start_time =  $condition['date'];
+        $booking_start_time = $condition['date'];
         $booking_end_time = Carbon::createFromFormat('Y-m-d H:i:s', $condition['date'], 'UTC')->addMinutes(intval($condition['duration']))->format('Y-m-d H:i:s');
 
         $nonAvailableRooms = Booking::where(function ($query) use ($booking_start_time, $booking_end_time) {
