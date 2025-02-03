@@ -73,15 +73,5 @@ class RazorPayService implements TransactionFlow
         $user->current_plan = $subscription->plan_name;
         $user->current_plan_expiry_at = $subscription->plan_end_date;
         $user->save();
-
-        return response()->json(
-            [
-                'data' => [
-                    'success' => true,
-                    'errors' => '',
-                ],
-            ],
-            200
-        );
     }
 }

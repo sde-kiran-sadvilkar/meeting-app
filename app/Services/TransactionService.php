@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 class TransactionService
 {
-    public function createTransaction($data, $userId, $gateway)
+    public function createTransaction(array $data, string $userId, string $gateway)
     {
 
         $data = $this->createDemoData($userId);
@@ -17,7 +17,7 @@ class TransactionService
         }
     }
 
-    private function createDemoData($userId): array
+    private function createDemoData(string $userId): array
     {
         // return [];
         $trnxName = Carbon::now()->timestamp;
@@ -28,7 +28,7 @@ class TransactionService
             'user_id' => $userId,
             'gateway_name' => 'razor_pay',
             'gateway_id' => 1,
-            'gateway_trnx_id' => 'razor_pay_'.$trnxName,
+            'gateway_trnx_id' => 'razor_pay_' . $trnxName,
             'rrn_number' => $trnxName,
             'amount' => 20,
             'plan' => 'advance_plan',

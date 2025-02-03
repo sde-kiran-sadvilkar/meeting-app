@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Services\BookingService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+
 
 class BookingController extends Controller
 {
@@ -11,7 +13,7 @@ class BookingController extends Controller
 
     public function __construct(private BookingService $bookingService) {}
 
-    public function createBooking(Request $request)
+    public function createBooking(Request $request): JsonResponse
     {
 
         // validation goes here

@@ -36,7 +36,7 @@ class BookingService
         }
     }
 
-    public function checkIfUserCanBook($userId, $currentSubscription)
+    public function checkIfUserCanBook(string $userId, string $currentSubscription): bool
     {
 
         $today = Carbon::today()->format('Y-m-d');

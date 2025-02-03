@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Booking;
 use App\Models\Room;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 
 class RoomService
@@ -38,13 +39,13 @@ class RoomService
         return $availableRooms;
     }
 
-    public function getRoomsBasedOnCapacity($capacity)
+    public function getRoomsBasedOnCapacity($capacity): Collection
     {
 
         return Room::where('capacity', '>=', $capacity)->get()->pluck('id');
     }
 
-    public function getRooms(array $roomIds)
+    public function getRooms(array $roomIds): Collection
     {
         return Room::whereIn('id', $roomIds)->get();
     }

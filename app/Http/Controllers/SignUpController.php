@@ -12,11 +12,6 @@ class SignUpController extends Controller
     public function signup(Request $request)
     {
 
-        // Validation logic goes here
-
-        //
-        // dd($request->get('user'));
-
         $validator = Validator::make($request->all(), [
             'user.email' => 'required|email|unique:users,email',
             'user.password' => 'required|min:6',

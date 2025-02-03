@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\RoomService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,7 @@ class RoomController extends Controller
 
     public function __construct(private RoomService $roomService) {}
 
-    public function getMeetingRooms(Request $request)
+    public function getMeetingRooms(Request $request): JsonResponse
     {
 
         $validator = Validator::make($request->all(), [

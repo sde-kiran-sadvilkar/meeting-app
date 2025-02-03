@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\LoginService;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,7 @@ class LoginController extends Controller
     //
     public function __construct(private LoginService $loginService) {}
 
-    public function login(Request $request): Response
+    public function login(Request $request): JsonResponse
     {
 
         $validator = $this->loginService->validate($request);
@@ -44,7 +45,7 @@ class LoginController extends Controller
                     ],
                 ];
 
-                return response(
+                return response()->json(
                     [
                         'data' => [
                             'success' => false,
@@ -66,7 +67,7 @@ class LoginController extends Controller
             $user->wrong_attempts = 0;
             $user->blocked_until = null;
 
-            return response(
+            return response()->json(
                 [
                     'data' => [
                         'success' => true,
@@ -97,7 +98,7 @@ class LoginController extends Controller
             $user->save();
         }
 
-        return response(
+        return response()->json(
             [
                 'data' => [
                     'success' => false,
