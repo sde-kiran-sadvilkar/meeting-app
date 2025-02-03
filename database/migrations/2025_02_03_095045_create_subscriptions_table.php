@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('plan_id');
             $table->dateTime('plan_start_date');
             $table->dateTime('plan_end_date');
+            $table->dateTime('transaction_id');
             $table->boolean('is_expired')->default(false);   // this can be update using schedular at midnight
             $table->timestamps();
             $table->softDeletes();
@@ -25,9 +26,11 @@ return new class extends Migration
 
             $table->foreign('plan_id')->references('id')->on('subscription_packs')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
 
             $table->index(['user_id', 'plan_id']);
             $table->index(['user_id', 'plan_start_date', 'plan_end_date']);
+            $table->index(['user_id', 'transaction_id']);
         });
     }
 

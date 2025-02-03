@@ -41,20 +41,47 @@ class LoginController extends Controller
             );
         }
 
-        // $validatedData = $request->validateWithBag('user', [
-        //     'email' => ['required', 'email'],
-        //     'password' => ['required'],
-        // ]);
+
 
         $reqestedUser = $request->get('user');
 
         $user = User::where('email', $reqestedUser['email'])->first();
+
+
+
+        if ($user) {
+            if ($user->blocked_until >= Carbon::now()->format('Y-m-d H:i:s')) {
+
+
+                $errors =  [
+                    "user.account" => [
+                        "Account has been blocked for 24 hours for multiple wrong attempts"
+                    ]
+                ];
+
+
+                return response(
+                    [
+                        'data' => [
+                            'success' => false,
+                            'errors' => $errors
+
+                        ]
+
+                    ],
+                    401
+                );
+            }
+        }
+
 
         if ($user && Hash::check($reqestedUser['password'], $user->password)) {
 
             //Valid user so create token
 
             $token = $user->createToken("userToken", ['*'], Carbon::now()->addHour())->plainTextToken;
+            $user->wrong_attempts = 0;
+            $user->blocked_until = null;
 
             return response(
                 [
@@ -67,15 +94,37 @@ class LoginController extends Controller
             );
         }
 
+        $errors =  [
+            "user.invalid" => [
+                "Email or password incorrect"
+            ]
+        ];
+
+
+        if ($user) {
+            $user->wrong_attempts =   $user->wrong_attempts + 1;
+
+            if ($user->wrong_attempts == 3) {
+                $user->blocked_until = Carbon::now()->addHours(24);
+                $errors['user.account'] = [
+                    "Account has been blocked for 24 hours for multiple wrong attempts"
+                ];
+            }
+
+            $user->save();
+        }
+
+
+
+
+        //dd($user->wrong_attempts);
+
         return response(
             [
                 'data' => [
                     'success' => false,
-                    'errors' => [
-                        "user.invalid" => [
-                            "Email or password incorrect"
-                        ]
-                    ]
+                    'errors' => $errors
+
                 ]
 
             ],

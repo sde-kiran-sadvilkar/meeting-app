@@ -46,10 +46,10 @@ class RazorPayService implements TransactionFlow
             $tranx_resp->response = json_encode($data);
             $tranx_resp->save();
 
-            $this->createSubscription($data);
+            $this->createSubscription($data, $transaction);
         }
     }
-    public function createSubscription(array $data)
+    public function createSubscription(array $data, $transaction)
     {
 
         $subscription = new Subscription();
@@ -59,6 +59,8 @@ class RazorPayService implements TransactionFlow
         $subscription->plan_start_date = Carbon::now();
         $subscription->plan_end_date = Carbon::now()->addDays(30); //Setting end date to 30 days
         $subscription->is_expired = false;
+        $subscription->plan_end_date = Carbon::now()->addDays(30);
+        $subscription->transaction_id = $transaction->id;
 
 
         if ($subscription->save()) {
@@ -72,5 +74,16 @@ class RazorPayService implements TransactionFlow
         $user->current_plan = $subscription->plan_name;
         $user->current_plan_expiry_at = $subscription->plan_end_date;
         $user->save();
+
+
+        return response()->json(
+            [
+                'data' => [
+                    'success' => true,
+                    'errors' => ''
+                ]
+            ],
+            200
+        );
     }
 }
