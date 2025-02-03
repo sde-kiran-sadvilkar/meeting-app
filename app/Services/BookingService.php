@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Booking;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Polyfill\Intl\Idn\Idn;
 
 class BookingService
 {
@@ -49,10 +50,11 @@ class BookingService
         return $bookingsToday < $maxbooking;
     }
 
-    public function applyFilters($requestData): ?LengthAwarePaginator
+    public function applyFilters(array $requestData, string $userId): ?LengthAwarePaginator
     {
 
         $bookings = Booking::query();
+        $bookings = $bookings->where('user_id', $userId);
 
         if (isset($requestData['filters'])) {
 
