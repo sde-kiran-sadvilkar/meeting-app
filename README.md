@@ -1,3 +1,17 @@
+
+## Installation
+
+    Clone the master branch
+    cd project-name
+    Run composer install
+    copy .env.example to .env (change the settings if needed)
+    Run php artisan key:generate
+    Run ./vendor/bin/sail up
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
