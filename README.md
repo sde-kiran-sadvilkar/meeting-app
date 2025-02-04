@@ -7,6 +7,8 @@
     copy .env.example to .env (change the settings if needed)
     Run php artisan key:generate
     Run ./vendor/bin/sail up
+    Run ./vendor/bin/sail php artisan migrate
+    Run ./vendor/bin/sail php artisan db:seed
 
 
 
